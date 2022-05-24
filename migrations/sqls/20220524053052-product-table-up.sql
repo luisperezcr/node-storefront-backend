@@ -1,0 +1,1 @@
+CREATE table products (id SERIAL PRIMARY KEY, name VARCHAR(100), price INTEGER, category_id BIGINT REFERENCES categories(id));

@@ -7,7 +7,9 @@
     "start": "node src/server.ts",
     "test": "ENV=test db-migrate --env test up && jasmine-ts && db-migrate db:drop --env test",
     "tsc": "tsc",
-    "watch": "set ENV=dev && tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\""
+    "watch": "set ENV=dev && tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
+    "prettier": "prettier --config .prettierrc \"src/**/*.ts\" --write",
+    "lint": "eslint . --ext .ts"
   },
   "repository": {
     "type": "git",
@@ -36,9 +38,13 @@
     "@types/jasmine": "^4.0.3",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/pg": "^8.6.5",
+    "@typescript-eslint/eslint-plugin": "^5.26.0",
+    "@typescript-eslint/parser": "^5.26.0",
+    "eslint": "^8.16.0",
     "jasmine": "^4.1.0",
     "jasmine-spec-reporter": "^7.0.0",
     "jasmine-ts": "^0.4.0",
+    "prettier": "^2.6.2",
     "ts-node": "^10.8.0",
     "tsc-watch": "^5.0.3"
   }

@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import categories_routes from './handlers/categories';
+import users_routes from './handlers/users';
 
 const app: Application = express();
 const address: string = 'localhost:3000';
@@ -13,6 +14,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 categories_routes(app);
+users_routes(app);
 
 app.listen(3000, () => {
   console.log(`Starting app on: ${address}`);

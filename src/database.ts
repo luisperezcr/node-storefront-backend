@@ -30,5 +30,3 @@ if (ENV === 'test') {
 }
 
 export default client;
-
-

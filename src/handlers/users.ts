@@ -7,12 +7,12 @@ import verifyAuthToken from '../middlewares/verify-auth-token';
 const store = new UserStore();
 dotenv.config();
 
-const index = async(_req: Request, res: Response) => {
+const index = async (_req: Request, res: Response) => {
   const users = await store.index();
   res.json(users);
 };
 
-const create = async(req: Request, res: Response) => {
+const create = async (req: Request, res: Response) => {
   const user: User = {
     username: req.body.username,
     firstName: req.body.firstName,
@@ -20,20 +20,24 @@ const create = async(req: Request, res: Response) => {
     password: req.body.password
   };
   const newUser = await store.create(user);
-  const token = jwt.sign({ user: user }, process.env.TOKEN_SECRET as string, { expiresIn: '2h' });
-  res.json({...newUser, token: `Bearer ${token}`});
+  const token = jwt.sign({ user: user }, process.env.TOKEN_SECRET as string, {
+    expiresIn: '2h'
+  });
+  res.json({ ...newUser, token: `Bearer ${token}` });
 };
 
-const getById = async(req: Request, res: Response) => {
+const getById = async (req: Request, res: Response) => {
   const username: string = req.params.username;
   const user = await store.getById(username);
   res.json(user);
 };
 
-const authenticate = async(req: Request, res: Response) => {
+const authenticate = async (req: Request, res: Response) => {
   const user = await store.authenticate(req.body.username, req.body.password);
-  const token = jwt.sign({ user: user }, process.env.TOKEN_SECRET as string, { expiresIn: '2h' });
-  res.json({...user, token: `Bearer ${token}`});
+  const token = jwt.sign({ user: user }, process.env.TOKEN_SECRET as string, {
+    expiresIn: '2h'
+  });
+  res.json({ ...user, token: `Bearer ${token}` });
 };
 
 const users_routes = (app: Application) => {

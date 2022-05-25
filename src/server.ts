@@ -4,11 +4,11 @@ import categories_routes from './handlers/categories';
 import users_routes from './handlers/users';
 
 const app: Application = express();
-const address: string = 'localhost:3000';
+const address = 'localhost:3000';
 
 app.use(bodyParser.json());
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (_req: Request, res: Response) => {
   res.status(200);
   res.send('App is working!');
 });

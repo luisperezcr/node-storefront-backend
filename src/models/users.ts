@@ -24,32 +24,39 @@ export class UserStore {
       conn.release();
       return result.rows;
     } catch (err) {
-      throw new Error (`unable to get: users ${err}`);
+      throw new Error(`unable to get: users ${err}`);
     }
   }
 
   async create(u: User): Promise<User> {
     try {
       const conn = await client.connect();
-      const sql = 'INSERT INTO users (username, firstName, lastName, password) VALUES ($1, $2, $3, $4) RETURNING *';
+      const sql =
+        'INSERT INTO users (username, firstName, lastName, password) VALUES ($1, $2, $3, $4) RETURNING *';
       const hash = bcrypt.hashSync(u.password + pepper, Number(saltRounds));
-      const result = await conn.query(sql, [u.username, u.firstName, u.lastName, hash]);
+      const result = await conn.query(sql, [
+        u.username,
+        u.firstName,
+        u.lastName,
+        hash
+      ]);
       conn.release();
       return result.rows[0];
     } catch (err) {
-      throw new Error (`unable to create user: ${err}`);
+      throw new Error(`unable to create user: ${err}`);
     }
   }
 
   async getById(username: string): Promise<User> {
     try {
       const conn = await client.connect();
-      const sql = 'SELECT id, username, firstName, lastName FROM users WHERE username = $1';
+      const sql =
+        'SELECT id, username, firstName, lastName FROM users WHERE username = $1';
       const result = await conn.query(sql, [username]);
       conn.release();
       return result.rows[0];
     } catch (err) {
-      throw new Error (`unable to get user ${username}: ${err}`);
+      throw new Error(`unable to get user ${username}: ${err}`);
     }
   }
 
@@ -66,7 +73,7 @@ export class UserStore {
       }
       return null;
     } catch (err) {
-      throw new Error(`unable to authenticate as ${username}: ${err}`)
+      throw new Error(`unable to authenticate as ${username}: ${err}`);
     }
-  };
+  }
 }

@@ -1,7 +1,7 @@
 import client from '../database';
 
 export type Category = {
-  id: number;
+  id?: number;
   name: string;
 };
 
@@ -14,7 +14,7 @@ export class CategoryStore {
       conn.release();
       return result.rows;
     } catch (err) {
-      throw new Error(`cannot get categories: ${err}`)
+      throw new Error(`cannot get categories: ${err}`);
     }
   }
 
@@ -26,7 +26,7 @@ export class CategoryStore {
       conn.release();
       return result.rows[0];
     } catch (err) {
-      throw new Error(`cannot get categories: ${err}`)
+      throw new Error(`cannot get categories: ${err}`);
     }
   }
 }

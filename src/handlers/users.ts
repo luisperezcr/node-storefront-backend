@@ -20,7 +20,7 @@ const create = async (req: Request, res: Response) => {
     password: req.body.password
   };
   const newUser = await store.create(user);
-  const token = jwt.sign({ user: user }, process.env.TOKEN_SECRET as string, {
+  const token = jwt.sign({ user: newUser }, process.env.TOKEN_SECRET as string, {
     expiresIn: '2h'
   });
   res.json({ ...newUser, token: `Bearer ${token}` });

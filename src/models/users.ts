@@ -51,7 +51,7 @@ export class UserStore {
     try {
       const conn = await client.connect();
       const sql =
-        'SELECT id, username, firstName, lastName FROM users WHERE username = $1';
+        'SELECT username, firstName, lastName FROM users WHERE username = $1';
       const result = await conn.query(sql, [username]);
       conn.release();
       return result.rows[0];

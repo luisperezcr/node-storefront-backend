@@ -1,5 +1,6 @@
 import { Application, Request, Response } from 'express';
 import { Category, CategoryStore } from '../models/categories';
+import verifyAuthToken from '../middlewares/verify-auth-token';
 
 const store = new CategoryStore();
 
@@ -18,7 +19,7 @@ const create = async (req: Request, res: Response) => {
 
 const categories_routes = (app: Application) => {
   app.get('/categories', index);
-  app.post('/categories', create);
+  app.post('/categories', verifyAuthToken, create);
 };
 
 export default categories_routes;

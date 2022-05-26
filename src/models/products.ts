@@ -57,7 +57,7 @@ export class ProductsStore {
   async byCategory(categoryId: number): Promise<Product[]> {
     try {
       const conn = await client.connect();
-      const sql = `SELECT P.id, P.name, P.price, P.category_id FROM products P LEFT JOIN categories C ON p.category_id = C.id WHERE p.category_id = $1 GROUP BY C.id,p.id;`;
+      const sql = `SELECT P.id, P.name, P.price, P.category_id FROM products P INNER JOIN categories C ON p.category_id = C.id WHERE p.category_id = $1 GROUP BY C.id,p.id;`;
       const result = await conn.query(sql, [categoryId]);
       conn.release();
       return result.rows;

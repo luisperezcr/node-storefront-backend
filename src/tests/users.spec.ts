@@ -1,8 +1,6 @@
 import { User, UserStore } from "../models/users";
 import bcrypt from 'bcrypt';
-import dotenv from 'dotenv';
 
-dotenv.config();
 const store = new UserStore();
 const user: User = {
   username: 'jocko_willink',

@@ -26,9 +26,9 @@ const create = async (req: Request, res: Response) => {
   res.json({ ...newUser, token: `Bearer ${token}` });
 };
 
-const getById = async (req: Request, res: Response) => {
+const show = async (req: Request, res: Response) => {
   const username: string = req.params.username;
-  const user = await store.getById(username);
+  const user = await store.show(username);
   res.json(user);
 };
 
@@ -42,8 +42,8 @@ const authenticate = async (req: Request, res: Response) => {
 
 const users_routes = (app: Application) => {
   app.get('/users', verifyAuthToken, index);
-  app.post('/users', create);
-  app.get('/users/:username', verifyAuthToken, getById);
+  app.post('/users', verifyAuthToken, create);
+  app.get('/users/:username', verifyAuthToken, show);
   app.post('/users/authenticate', authenticate);
 };
 

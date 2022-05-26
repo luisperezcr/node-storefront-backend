@@ -47,7 +47,7 @@ export class UserStore {
     }
   }
 
-  async getById(username: string): Promise<User> {
+  async show(username: string): Promise<User> {
     try {
       const conn = await client.connect();
       const sql =
@@ -68,7 +68,7 @@ export class UserStore {
       if (result.rows.length) {
         const user = result.rows[0];
         if (bcrypt.compareSync(password + pepper, user.password)) {
-          return this.getById(username);
+          return this.show(username);
         }
       }
       return null;

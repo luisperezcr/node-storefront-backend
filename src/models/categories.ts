@@ -26,7 +26,22 @@ export class CategoryStore {
       conn.release();
       return result.rows[0];
     } catch (err) {
-      throw new Error(`cannot get categories: ${err}`);
+      throw new Error(`cannot create category: ${err}`);
+    }
+  }
+  
+  async show(id: number): Promise<Category | null> {
+    try {
+      const conn = await client.connect();
+      const sql = 'SELECT * FROM categories WHERE id = $1;';
+      const result = await conn.query(sql, [id]);
+      conn.release();
+      if (result.rows.length) {
+        return result.rows[0];
+      }
+      return null;
+    } catch (err) {
+      throw new Error(`cannot get category: ${err}`);
     }
   }
 }

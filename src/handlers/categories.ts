@@ -17,9 +17,16 @@ const create = async (req: Request, res: Response) => {
   res.json(category);
 };
 
+const show = async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+  const category = await store.show(id);
+  res.json(category);
+};
+
 const categories_routes = (app: Application) => {
   app.get('/categories', index);
   app.post('/categories', verifyAuthToken, create);
+  app.get('/categories/:id', verifyAuthToken, show);
 };
 
 export default categories_routes;

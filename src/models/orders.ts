@@ -13,6 +13,13 @@ export type OrderProduct = {
   quantity: number;
 };
 
+export type OrderWithProducts = {
+  id: number;
+  username: string;
+  status: string;
+  products: []
+};
+
 export class OrdersStore {
   async index(): Promise<Order[]> {
     try {
@@ -39,16 +46,25 @@ export class OrdersStore {
     }
   }
 
-  async show(order_id: number): Promise<Order> {
+  async show(username: string, order_id: number): Promise<OrderWithProducts | null> {
     try {
       const conn = await client.connect();
-      const sql = 'SELECT * FROM orders WHERE id = $1;';
-      const result = await conn.query(sql, [order_id]);
+      const orderSql = 'SELECT * FROM orders WHERE username = $1 AND id = $2;';
+      const orderResult = await conn.query(orderSql, [username, order_id]);
+      const productsSql = 'SELECT p.id, p.name, op.quantity FROM orders_products op INNER JOIN products p ON p.id = op.product_id WHERE op.order_id = $1;';
+      const productsResult = await conn.query(productsSql, [order_id]);
       conn.release();
-
-      return result.rows[0];
+      
+      if (orderResult.rows.length) {
+        const result = {
+          ...orderResult.rows[0],
+          products: productsResult.rows
+        };
+        return result;
+      }
+      return null;
     } catch(err) {
-      throw new Error(`unable to get orders: ${err}`);
+      throw new Error(`unable to get orders with products: ${err}`);
     }
   }
 

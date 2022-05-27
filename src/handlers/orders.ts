@@ -20,7 +20,8 @@ const create = async (req: Request, res: Response) => {
 
 const show = async(req: Request, res: Response) => {
   const orderId = Number(req.params.id);
-  const order = await store.show(orderId);
+  const username = req.params.username;
+  const order = await store.show(username, orderId);
   res.json(order);
 };
 
@@ -36,7 +37,7 @@ const addProduct = async(req: Request, res: Response) => {
 
 const orders_routes = (app: Application) => {
   app.get('/orders', index);
-  app.get('/orders/:id', show);
+  app.get('/orders/:id/:username', verifyAuthToken, show);
   app.post('/orders', verifyAuthToken, create);
   app.post('/orders/:id/products', verifyAuthToken, addProduct);
 };

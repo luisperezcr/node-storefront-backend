@@ -17,7 +17,7 @@ export type OrderWithProducts = {
   id: number;
   username: string;
   status: string;
-  products: []
+  products: [];
 };
 
 export class OrdersStore {
@@ -29,7 +29,7 @@ export class OrdersStore {
       conn.release();
 
       return result.rows;
-    } catch(err) {
+    } catch (err) {
       throw new Error(`unable to get orders: ${err}`);
     }
   }
@@ -37,24 +37,29 @@ export class OrdersStore {
   async create(order: Order): Promise<Order> {
     try {
       const conn = await client.connect();
-      const sql = 'INSERT INTO orders (username, status) VALUES ($1, $2) RETURNING *;'
+      const sql =
+        'INSERT INTO orders (username, status) VALUES ($1, $2) RETURNING *;';
       const result = await conn.query(sql, [order.username, order.status]);
       conn.release();
       return result.rows[0];
-    } catch(err) {
+    } catch (err) {
       throw new Error(`unable to create order: ${err}`);
     }
   }
 
-  async show(username: string, order_id: number): Promise<OrderWithProducts | null> {
+  async show(
+    username: string,
+    order_id: number
+  ): Promise<OrderWithProducts | null> {
     try {
       const conn = await client.connect();
       const orderSql = 'SELECT * FROM orders WHERE username = $1 AND id = $2;';
       const orderResult = await conn.query(orderSql, [username, order_id]);
-      const productsSql = 'SELECT p.id, p.name, op.quantity FROM orders_products op INNER JOIN products p ON p.id = op.product_id WHERE op.order_id = $1;';
+      const productsSql =
+        'SELECT p.id, p.name, op.quantity FROM orders_products op INNER JOIN products p ON p.id = op.product_id WHERE op.order_id = $1;';
       const productsResult = await conn.query(productsSql, [order_id]);
       conn.release();
-      
+
       if (orderResult.rows.length) {
         const result = {
           ...orderResult.rows[0],
@@ -63,12 +68,16 @@ export class OrdersStore {
         return result;
       }
       return null;
-    } catch(err) {
+    } catch (err) {
       throw new Error(`unable to get orders with products: ${err}`);
     }
   }
 
-  async addProduct(order_id: number, product_id: number, quantity: number): Promise<OrderProduct> {
+  async addProduct(
+    order_id: number,
+    product_id: number,
+    quantity: number
+  ): Promise<OrderProduct> {
     try {
       let result: QueryResult;
       let sql: string;
@@ -77,10 +86,12 @@ export class OrdersStore {
       const orderProduct = await this.getOrderProduct(order_id, product_id);
       if (orderProduct) {
         const newQuantity = orderProduct.quantity + quantity;
-        sql = 'UPDATE orders_products SET quantity = $3 WHERE order_id = $1 AND product_id = $2 RETURNING *;'
+        sql =
+          'UPDATE orders_products SET quantity = $3 WHERE order_id = $1 AND product_id = $2 RETURNING *;';
         result = await conn.query(sql, [order_id, product_id, newQuantity]);
       } else {
-        sql = 'INSERT INTO orders_products (order_id, product_id, quantity) VALUES ($1, $2, $3) RETURNING *;'
+        sql =
+          'INSERT INTO orders_products (order_id, product_id, quantity) VALUES ($1, $2, $3) RETURNING *;';
         result = await conn.query(sql, [order_id, product_id, quantity]);
       }
       conn.release();
@@ -90,10 +101,14 @@ export class OrdersStore {
     }
   }
 
-  private async getOrderProduct(order_id: number, product_id: number): Promise<OrderProduct | null> {
+  private async getOrderProduct(
+    order_id: number,
+    product_id: number
+  ): Promise<OrderProduct | null> {
     try {
       const conn = await client.connect();
-      const sql = 'SELECT * FROM orders_products WHERE order_id = $1 AND product_id = $2;';
+      const sql =
+        'SELECT * FROM orders_products WHERE order_id = $1 AND product_id = $2;';
       const result = await conn.query(sql, [order_id, product_id]);
       conn.release();
 
@@ -101,7 +116,7 @@ export class OrdersStore {
         return result.rows[0];
       }
       return null;
-    } catch(err) {
+    } catch (err) {
       throw new Error(`unable to get order_product: ${err}`);
     }
   }

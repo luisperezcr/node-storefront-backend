@@ -18,8 +18,8 @@ export class ProductsStore {
       const result = await conn.query(sql);
       conn.release();
       return result.rows;
-    } catch(err) {
-      throw new Error(`unable to get products: ${err}`)
+    } catch (err) {
+      throw new Error(`unable to get products: ${err}`);
     }
   }
 
@@ -33,8 +33,8 @@ export class ProductsStore {
         return result.rows[0];
       }
       return null;
-    } catch(err) {
-      throw new Error(`unable to get products: ${err}`)
+    } catch (err) {
+      throw new Error(`unable to get products: ${err}`);
     }
   }
 
@@ -45,12 +45,17 @@ export class ProductsStore {
         return null;
       }
       const conn = await client.connect();
-      const sql = 'INSERT INTO products (name, price, category_id) VALUES ($1, $2, $3) RETURNING *;';
-      const result = await conn.query(sql, [product.name, product.price, product.category_id]);
+      const sql =
+        'INSERT INTO products (name, price, category_id) VALUES ($1, $2, $3) RETURNING *;';
+      const result = await conn.query(sql, [
+        product.name,
+        product.price,
+        product.category_id
+      ]);
       conn.release();
       return result.rows[0];
-    } catch(err) {
-      throw new Error(`unable to get products: ${err}`)
+    } catch (err) {
+      throw new Error(`unable to get products: ${err}`);
     }
   }
 
@@ -61,7 +66,7 @@ export class ProductsStore {
       const result = await conn.query(sql, [categoryId]);
       conn.release();
       return result.rows;
-    } catch(err) {
+    } catch (err) {
       throw new Error(`unable to get products by category: ${err}`);
     }
   }

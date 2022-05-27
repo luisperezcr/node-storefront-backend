@@ -1,4 +1,4 @@
-import { Product, ProductsStore } from "../models/products";
+import { Product, ProductsStore } from '../models/products';
 
 const store = new ProductsStore();
 const product: Product = {
@@ -24,22 +24,22 @@ describe('Products Model', () => {
     expect(store.byCategory).toBeDefined();
   });
 
-  it('should get products', async() => {
+  it('should get products', async () => {
     const result = await store.index();
     expect(result).toEqual([]);
   });
 
-  it('should create a product', async() => {
+  it('should create a product', async () => {
     const result = await store.create(product);
     expect(result?.name).toEqual(product.name);
   });
 
-  it('should get product by ID', async() => {
+  it('should get product by ID', async () => {
     const result = await store.show(1);
     expect(result?.name).toEqual(product.name);
   });
 
-  it('should get products by category', async() => {
+  it('should get products by category', async () => {
     const result = await store.byCategory(1);
     expect(result[0].name).toEqual(product.name);
   });

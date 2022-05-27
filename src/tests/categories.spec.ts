@@ -17,18 +17,18 @@ describe('Categories Model', () => {
   it('should have create method', () => {
     expect(store.create).toBeDefined();
   });
-  
-  it('should get categories', async() => {
+
+  it('should get categories', async () => {
     const result = await store.index();
     expect(result).toEqual([]);
   });
 
-  it('should create a category', async() => {
+  it('should create a category', async () => {
     const result = await store.create(category);
     expect(result.name).toEqual(category.name);
   });
 
-  it('should get a category by ID', async() => {
+  it('should get a category by ID', async () => {
     const result = await store.show(1);
     expect(result?.name).toEqual(category.name);
   });

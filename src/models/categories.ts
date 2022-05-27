@@ -29,7 +29,7 @@ export class CategoryStore {
       throw new Error(`cannot create category: ${err}`);
     }
   }
-  
+
   async show(id: number): Promise<Category | null> {
     try {
       const conn = await client.connect();

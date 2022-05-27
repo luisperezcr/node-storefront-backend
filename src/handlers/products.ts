@@ -4,12 +4,12 @@ import verifyAuthToken from '../middlewares/verify-auth-token';
 
 const store = new ProductsStore();
 
-const index = async(_req: Request, res: Response) => {
+const index = async (_req: Request, res: Response) => {
   const products = await store.index();
   res.json(products);
 };
 
-const show = async(req: Request, res: Response) => {
+const show = async (req: Request, res: Response) => {
   try {
     const productId = Number(req.params.id);
     const product = await store.show(productId);
@@ -20,7 +20,7 @@ const show = async(req: Request, res: Response) => {
   }
 };
 
-const create = async(req: Request, res: Response) => {
+const create = async (req: Request, res: Response) => {
   const product: Product = {
     name: req.body.name,
     price: +req.body.price,
@@ -35,7 +35,7 @@ const create = async(req: Request, res: Response) => {
   res.json(newProduct);
 };
 
-const byCategory = async(req: Request, res: Response) => {
+const byCategory = async (req: Request, res: Response) => {
   const categoryId = Number(req.params.id);
   const products = await store.byCategory(categoryId);
   res.json(products);

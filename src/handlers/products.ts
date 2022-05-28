@@ -45,7 +45,7 @@ const products_routes = (app: Application) => {
   app.get('/products', index);
   app.get('/products/:id', show);
   app.post('/products', verifyAuthToken, create);
-  app.get('/products/by-category/:id', verifyAuthToken, byCategory);
+  app.get('/products/category/:id', verifyAuthToken, byCategory);
 };
 
 export default products_routes;

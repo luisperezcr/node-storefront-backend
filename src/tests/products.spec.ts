@@ -26,7 +26,7 @@ describe('Products Model', () => {
 
   it('should get products', async () => {
     const result = await store.index();
-    expect(result).toEqual([]);
+    expect(result.length).toBeGreaterThan(0);
   });
 
   it('should create a product', async () => {
@@ -35,12 +35,12 @@ describe('Products Model', () => {
   });
 
   it('should get product by ID', async () => {
-    const result = await store.show(1);
+    const result = await store.show(2);
     expect(result?.name).toEqual(product.name);
   });
 
   it('should get products by category', async () => {
     const result = await store.byCategory(1);
-    expect(result[0].name).toEqual(product.name);
+    expect(result[1].name).toEqual(product.name);
   });
 });

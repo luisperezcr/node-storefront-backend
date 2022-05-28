@@ -3,9 +3,9 @@ import bcrypt from 'bcrypt';
 
 const store = new UserStore();
 const user: User = {
-  username: 'jocko_willink',
-  firstName: 'Jocko',
-  lastName: 'Willink',
+  username: 'luis_perez',
+  firstName: 'Luis',
+  lastName: 'Perez',
   password: 'go-get-some'
 };
 
@@ -28,7 +28,7 @@ describe('Users Model', () => {
 
   it('should get users', async () => {
     const users = await store.index();
-    expect(users).toEqual([]);
+    expect(users.length).toBeGreaterThan(0);
   });
 
   it('should create a user & encryp password', async () => {

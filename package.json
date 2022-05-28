@@ -5,11 +5,13 @@
   "main": "server.ts",
   "scripts": {
     "start": "node src/server.ts",
-    "test": "db-migrate up --env test && npm run build && jasmine && db-migrate reset --env test",
+    "test": "npm run migrate:up:test && npm run build && jasmine && npm run migrate:down:test",
     "build": "npx tsc",
     "watch": "set ENV=dev && tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
     "prettier": "prettier --config .prettierrc \"src/**/*.ts\" --write",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "migrate:up:test": "db-migrate up --env test",
+    "migrate:down:test": "db-migrate reset --env test"
   },
   "repository": {
     "type": "git",

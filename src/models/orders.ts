@@ -4,7 +4,7 @@ import client from '../database';
 export type Order = {
   id?: number;
   username: string;
-  status: boolean;
+  status: string;
 };
 
 export type OrderProduct = {

@@ -51,7 +51,7 @@ The first thing you need to do after starting a local environment is to create a
   ```json
   {
     "username": "my-username",
-    "password": "my-password
+    "password": "my-password"
   }
   ```
 

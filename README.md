@@ -22,6 +22,19 @@ First run `npm i` to installl all `node_modules`.
 
 ---
 
+## Set up
+In your root folder create an `.env` file and add your variables. The following is an example of the require variable by this project, feel free to add more if needed. Replace the string inside `<>` for whatever you want.
+  ```
+  POSTGRES_HOST=127.0.0.1
+  POSTGRES_DB_DEV=<name-of-database>-dev
+  POSTGRES_TEST_DB=<name-of-database>-test
+  POSTGRES_USER=<YOUR_USER>
+  POSTGRES_PWD=<YOUR_PASSWORD>
+  ENV=test
+  BCRYPT_PASSWORD=<ANY_STRING_YOU_WANT>
+  SALT_ROUNDS=10
+  TOKEN_SECRET=<ANY_STRING_YOU WANT>
+  ```
 ## API Endpoints
 
 ***Use Postman to test the API***

@@ -13,6 +13,7 @@ export type User = {
   firstName: string;
   lastName: string;
   password: string;
+  token?: string;
 };
 
 export class UserStore {

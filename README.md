@@ -45,3 +45,8 @@ First run `npm i` to installl all `node_modules`.
 
 1. To execute the project run `npm run watch`, this will create a local environment on port `3000` that will be accesible at `localhost:3000`.
 2. To hit any endpoint make sure you are using `localhost:3000`, so URLs will look like this: `localhost:3000/orders`
+
+---
+
+## Hit endpoints
+See the [REQUIREMENTS](https://github.com/luisperezcr/node-storefront-backend/blob/main/REQUIREMENTS.md) file.

@@ -42,7 +42,7 @@ First run `npm i` to installl all `node_modules`.
 
 ***Use Postman to test the API***
 
-Before testing any endpoint run `npm run watch` to start a local environment.
+Before testing any endpoint run `npm run watch` to start a local environment, your API will be available at port `3000` so just hit endpoints using `localhost:3000`
 
 The first thing you need to do after starting a local environment is to create an user to generate an *Authorization Token* that will be use to secure some of the API calls. To do that follow the next steps:
 

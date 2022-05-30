@@ -55,7 +55,7 @@ const addProduct = async (req: Request, res: Response) => {
 };
 
 const orders_routes = (app: Application) => {
-  app.get('/orders', index);
+  app.get('/orders', verifyAuthToken, index);
   app.get('/orders/:id/:username', verifyAuthToken, show);
   app.post('/orders', verifyAuthToken, create);
   app.post('/orders/:id/products', verifyAuthToken, addProduct);

@@ -13,35 +13,42 @@ const index = async (_req: Request, res: Response) => {
 };
 
 const create = async (req: Request, res: Response) => {
-  const user: User = {
-    username: req.body.username,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    password: req.body.password
-  };
-  const newUser = await store.create(user);
-  const token = jwt.sign(
-    { user: newUser },
-    process.env.TOKEN_SECRET as string,
-    {
-      expiresIn: '2h'
-    }
-  );
-  res.json({ ...newUser, token: `Bearer ${token}` });
+  try {
+    const user: User = {
+      username: req.body.username,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      password: req.body.password
+    };
+    const newUser = await store.create(user);
+    const token = jwt.sign({ user: newUser }, process.env.TOKEN_SECRET as string);
+    res.json({ ...newUser, token: `Bearer ${token}` });
+  } catch {
+    res.status(401);
+    res.json('An error occurred!');
+  }
 };
 
 const show = async (req: Request, res: Response) => {
-  const username: string = req.params.username;
-  const user = await store.show(username);
-  res.json(user);
+  try {
+    const username: string = req.params.username;
+    const user = await store.show(username);
+    res.json(user);
+  } catch {
+    res.status(401);
+    res.json('An error occurred!');
+  }
 };
 
 const authenticate = async (req: Request, res: Response) => {
-  const user = await store.authenticate(req.body.username, req.body.password);
-  const token = jwt.sign({ user: user }, process.env.TOKEN_SECRET as string, {
-    expiresIn: '2h'
-  });
+  try {
+    const user = await store.authenticate(req.body.username, req.body.password);
+    const token = jwt.sign({ user: user }, process.env.TOKEN_SECRET as string);
   res.json({ ...user, token: `Bearer ${token}` });
+  } catch {
+    res.status(401);
+    res.json('An error occurred!');
+  }
 };
 
 const users_routes = (app: Application) => {

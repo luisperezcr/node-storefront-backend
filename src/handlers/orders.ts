@@ -10,33 +10,48 @@ const index = async (_req: Request, res: Response) => {
 };
 
 const create = async (req: Request, res: Response) => {
-  const newOrder = {
-    username: req.body.username,
-    status: req.body.status
-  };
-  const order = await store.create(newOrder);
-  res.json(order);
+  try {
+    const newOrder = {
+      username: req.body.username,
+      status: req.body.status
+    };
+    const order = await store.create(newOrder);
+    res.json(order);
+  } catch {
+    res.status(401);
+    res.json('An error occurred!');
+  }
 };
 
 const show = async (req: Request, res: Response) => {
-  const orderId = Number(req.params.id);
-  const username = req.params.username;
-  const order = await store.show(username, orderId);
-  res.json(order);
+  try {
+    const orderId = Number(req.params.id);
+    const username = req.params.username;
+    const order = await store.show(username, orderId);
+    res.json(order);
+  } catch {
+    res.status(401);
+    res.json('An error occurred!');
+  }
 };
 
 const addProduct = async (req: Request, res: Response) => {
-  const orderProduct = {
-    order_id: req.params.id,
-    product_id: req.body.product_id,
-    quantity: req.body.quantity
-  };
-  const newOrderProduct = await store.addProduct(
-    +orderProduct.order_id,
-    orderProduct.product_id,
-    orderProduct.quantity
-  );
-  res.json(newOrderProduct);
+  try {
+    const orderProduct = {
+      order_id: req.params.id,
+      product_id: req.body.product_id,
+      quantity: req.body.quantity
+    };
+    const newOrderProduct = await store.addProduct(
+      +orderProduct.order_id,
+      orderProduct.product_id,
+      orderProduct.quantity
+    );
+    res.json(newOrderProduct);
+  } catch {
+    res.status(401);
+    res.json('An error occurred!');
+  }
 };
 
 const orders_routes = (app: Application) => {

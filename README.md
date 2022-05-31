@@ -32,12 +32,15 @@ First run `npm i` to installl all `node_modules`.
     POSTGRES_TEST_DB=<NAME_OF_DATABASE>-test
     POSTGRES_USER=<YOUR_USER>
     POSTGRES_PWD=<YOUR_PASSWORD>
+    POSTGRES_PORT=5432
     ENV=test
     BCRYPT_PASSWORD=<ANY_STRING_YOU_WANT>
     SALT_ROUNDS=10
     TOKEN_SECRET=<ANY_STRING_YOU_WANT>
     ```
 3. Regardless of using your local machine or a docker container, make sure you create 2 databases, once for `test` and another one for `dev`. Also, make sure you're using the same names your set on your `.env` file for `POSTGRES_DB_DEV` and `POSTGRES_TEST_DB`. So, for example if you used `my_database_dev` in your `.env` file, that's the name you will need to use to create the database, the same for the `test` one.
+
+4. As you can see in the `.env` file, there is a `POSTGRES_PORT=5432`, which will connect you database to that port, if you want to use a different port than `5432` just change that value.
 
 ---
 

@@ -2,11 +2,15 @@ import { CategoryStore } from '../models/categories';
 import { Order, OrderWithProducts, OrdersStore } from '../models/orders';
 import { ProductsStore } from '../models/products';
 import { UserStore } from '../models/users';
+import supertest from 'supertest';
+import app from '../server';
 
 const store = new OrdersStore();
 const userStore = new UserStore();
 const productsStore = new ProductsStore();
 const categoryStore = new CategoryStore();
+const request = supertest(app);
+let testUser: any;
 
 const order: Order = {
   username: 'jocko_willink',
@@ -32,6 +36,13 @@ describe('Orders Model', () => {
     await categoryStore.create({ name: 'Food' });
 
     await productsStore.create({ name: 'Tacos', price: 9, category_id: 1 });
+
+    testUser = await request.post('/users').send({
+      username: 'test-user-2',
+      firstName: 'John',
+      lastName: 'Doe',
+      password: 'im-john-doe'
+    });
   });
 
   it('should have index method', () => {
@@ -68,5 +79,30 @@ describe('Orders Model', () => {
   it('should add product to order', async () => {
     const result = await store.addProduct(1, 1, 15);
     expect(Number(result.order_id)).toEqual(1);
+  });
+
+  it('should get orders from endpoint', async () => {
+    const response = await request.get('/orders').set({ 'Authorization': JSON.parse(testUser.text).token });
+    const result = JSON.parse(response.text);
+    expect(result.length).toBeTruthy();
+  });
+
+  it('should create an order from endpoint', async () => {
+    const response = await request.post('/orders')
+                                  .send({ username: 'test-user-2' })
+                                  .set({ 'Authorization': JSON.parse(testUser.text).token });
+    expect(response.status).toEqual(200);
+  });
+
+  it('should get orders from endpoint', async () => {
+    const response = await request.get('/orders/1/test-user-2').set({ 'Authorization': JSON.parse(testUser.text).token });
+    expect(response.status).toEqual(200);
+  });
+
+  it('should add product to order from endpoint', async () => {
+    const response = await request.get('/orders/1/products')
+                                  .send({ product_id: 1, quantity: 5 })
+                                  .set({ 'Authorization': JSON.parse(testUser.text).token });
+    expect(response.status).toEqual(200);
   });
 });

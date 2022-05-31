@@ -12,7 +12,7 @@ const category: Category = {
 describe('Categories Model', () => {
   beforeAll(async () => {
     testUser = await request.post('/users').send({
-      username: 'john_doe',
+      username: 'test-user-1',
       firstName: 'John',
       lastName: 'Doe',
       password: 'im-john-doe'

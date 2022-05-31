@@ -1,6 +1,10 @@
 import { User, UserStore } from '../models/users';
 import bcrypt from 'bcrypt';
+import supertest from 'supertest';
+import app from '../server';
 
+const request = supertest(app);
+let testUser: { text: string };
 const store = new UserStore();
 const user: User = {
   username: 'luis_perez',
@@ -10,6 +14,15 @@ const user: User = {
 };
 
 describe('Users Model', () => {
+  beforeAll(async () => {
+    testUser = await request.post('/users').send({
+      username: 'test-user-4',
+      firstName: 'John',
+      lastName: 'Doe',
+      password: 'im-john-doe'
+    });
+  });
+
   it('should have index method', () => {
     expect(store.index).toBeDefined();
   });
@@ -58,5 +71,24 @@ describe('Users Model', () => {
   it('should return null if authentication fails', async () => {
     const result = await store.authenticate(user.username, 'random-password');
     expect(result).toBeFalsy();
+  });
+
+  it('should get users from endpoint', async () => {
+    const response = await request.get('/users').set({ 'Authorization': JSON.parse(testUser.text).token });
+    const result = JSON.parse(response.text);
+    expect(result.length).toBeTruthy();
+  });
+  
+  it('should get an user from endpoint', async () => {
+    const response = await request.get('/users/test-user-4').set({ 'Authorization': JSON.parse(testUser.text).token });
+    const result = JSON.parse(response.text);
+    expect(result.firstname).toEqual('John');
+  });
+
+  it('should authenticate an user', async () => {
+    const response = await request.post('/users/authenticate')
+                                  .send({  username: 'test-user-4', password: 'im-john-doe'});
+    const result = JSON.parse(response.text);
+    expect(result.token).toBeTruthy();
   });
 });

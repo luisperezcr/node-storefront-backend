@@ -3,7 +3,7 @@ import supertest from 'supertest';
 import app from '../server';
 
 const request = supertest(app);
-let testUser: any;
+let testUser: { text: string };
 const store = new CategoryStore();
 const category: Category = {
   name: 'Food'

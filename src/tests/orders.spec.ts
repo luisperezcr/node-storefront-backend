@@ -10,7 +10,7 @@ const userStore = new UserStore();
 const productsStore = new ProductsStore();
 const categoryStore = new CategoryStore();
 const request = supertest(app);
-let testUser: any;
+let testUser: { text: string };
 
 const order: Order = {
   username: 'jocko_willink',

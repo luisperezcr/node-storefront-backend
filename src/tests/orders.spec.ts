@@ -82,27 +82,33 @@ describe('Orders Model', () => {
   });
 
   it('should get orders from endpoint', async () => {
-    const response = await request.get('/orders').set({ 'Authorization': JSON.parse(testUser.text).token });
+    const response = await request
+      .get('/orders')
+      .set({ Authorization: JSON.parse(testUser.text).token });
     const result = JSON.parse(response.text);
     expect(result.length).toBeTruthy();
   });
 
   it('should create an order from endpoint', async () => {
-    const response = await request.post('/orders')
-                                  .send({ username: 'test-user-2' })
-                                  .set({ 'Authorization': JSON.parse(testUser.text).token });
+    const response = await request
+      .post('/orders')
+      .send({ username: 'test-user-2' })
+      .set({ Authorization: JSON.parse(testUser.text).token });
     expect(response.status).toEqual(200);
   });
 
   it('should get orders from endpoint', async () => {
-    const response = await request.get('/orders/1/test-user-2').set({ 'Authorization': JSON.parse(testUser.text).token });
+    const response = await request
+      .get('/orders/1/test-user-2')
+      .set({ Authorization: JSON.parse(testUser.text).token });
     expect(response.status).toEqual(200);
   });
 
   it('should add product to order from endpoint', async () => {
-    const response = await request.get('/orders/1/products')
-                                  .send({ product_id: 1, quantity: 5 })
-                                  .set({ 'Authorization': JSON.parse(testUser.text).token });
+    const response = await request
+      .get('/orders/1/products')
+      .send({ product_id: 1, quantity: 5 })
+      .set({ Authorization: JSON.parse(testUser.text).token });
     expect(response.status).toEqual(200);
   });
 });

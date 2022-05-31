@@ -64,20 +64,23 @@ describe('Products Model', () => {
   });
 
   it('should create a product from endpoint', async () => {
-    const response = await request.post('/products')
-                                  .send({ name: 'Fish Tacos', price: 9, category_id: 1 })
-                                  .set({ 'Authorization': JSON.parse(testUser.text).token });
+    const response = await request
+      .post('/products')
+      .send({ name: 'Fish Tacos', price: 9, category_id: 1 })
+      .set({ Authorization: JSON.parse(testUser.text).token });
     expect(response.status).toEqual(200);
   });
 
   it('should get product by ID from endpoint', async () => {
-    const response = await request.get('/products/3');  
+    const response = await request.get('/products/3');
     const result = JSON.parse(response.text);
     expect(result.name).toEqual('Fish Tacos');
   });
 
   it('should get product by category from endpoint', async () => {
-    const response = await request.get('/products/category/1').set({ 'Authorization': JSON.parse(testUser.text).token });
+    const response = await request
+      .get('/products/category/1')
+      .set({ Authorization: JSON.parse(testUser.text).token });
     const result = JSON.parse(response.text);
     expect(result[2].name).toEqual('Fish Tacos');
   });

@@ -74,20 +74,25 @@ describe('Users Model', () => {
   });
 
   it('should get users from endpoint', async () => {
-    const response = await request.get('/users').set({ 'Authorization': JSON.parse(testUser.text).token });
+    const response = await request
+      .get('/users')
+      .set({ Authorization: JSON.parse(testUser.text).token });
     const result = JSON.parse(response.text);
     expect(result.length).toBeTruthy();
   });
-  
+
   it('should get an user from endpoint', async () => {
-    const response = await request.get('/users/test-user-4').set({ 'Authorization': JSON.parse(testUser.text).token });
+    const response = await request
+      .get('/users/test-user-4')
+      .set({ Authorization: JSON.parse(testUser.text).token });
     const result = JSON.parse(response.text);
     expect(result.firstname).toEqual('John');
   });
 
   it('should authenticate an user', async () => {
-    const response = await request.post('/users/authenticate')
-                                  .send({  username: 'test-user-4', password: 'im-john-doe'});
+    const response = await request
+      .post('/users/authenticate')
+      .send({ username: 'test-user-4', password: 'im-john-doe' });
     const result = JSON.parse(response.text);
     expect(result.token).toBeTruthy();
   });

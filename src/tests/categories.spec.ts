@@ -46,26 +46,29 @@ describe('Categories Model', () => {
     expect(result?.name).toEqual(category.name);
   });
 
-  it ('should get categories from endpoint call', async () => {
+  it('should get categories from endpoint call', async () => {
     const response = await request.get('/categories');
     const result = JSON.parse(response.text);
     expect(result.length).toBeTruthy();
   });
 
   it('should create a category from endpoint call', async () => {
-    const response = await request.post('/categories')
-                                  .send({ name: 'Office' })
-                                  .set({ 'Authorization': JSON.parse(testUser.text).token });
+    const response = await request
+      .post('/categories')
+      .send({ name: 'Office' })
+      .set({ Authorization: JSON.parse(testUser.text).token });
     const result = JSON.parse(response.text);
     expect(result.name).toEqual('Office');
   });
 
   it('should get a category by ID from endpoint', async () => {
-    const response = await request.get('/categories/1').set({ 'Authorization': JSON.parse(testUser.text).token });
+    const response = await request
+      .get('/categories/1')
+      .set({ Authorization: JSON.parse(testUser.text).token });
     const result = JSON.parse(response.text);
     expect(result.name).toEqual('Food');
   });
-  
+
   it('should response with access denied if token is not provided', async () => {
     const response = await request.get('/categories/1');
     expect(response.text).toEqual('"Access denied, invalid token."');

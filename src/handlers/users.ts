@@ -21,7 +21,10 @@ const create = async (req: Request, res: Response) => {
       password: req.body.password
     };
     const newUser = await store.create(user);
-    const token = jwt.sign({ user: newUser }, process.env.TOKEN_SECRET as string);
+    const token = jwt.sign(
+      { user: newUser },
+      process.env.TOKEN_SECRET as string
+    );
     res.json({ ...newUser, token: `Bearer ${token}` });
   } catch {
     res.status(401);
@@ -44,7 +47,7 @@ const authenticate = async (req: Request, res: Response) => {
   try {
     const user = await store.authenticate(req.body.username, req.body.password);
     const token = jwt.sign({ user: user }, process.env.TOKEN_SECRET as string);
-  res.json({ ...user, token: `Bearer ${token}` });
+    res.json({ ...user, token: `Bearer ${token}` });
   } catch {
     res.status(401);
     res.json('An error occurred!');

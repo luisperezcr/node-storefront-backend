@@ -13,26 +13,19 @@ const request = supertest(app);
 let testUser: { text: string };
 
 const order: Order = {
-  username: 'jocko_willink',
+  username: 'test-user-2',
   status: 'ACTIVE'
 };
 
 const orderWithProducts: OrderWithProducts = {
   id: 1,
-  username: 'jocko_willink',
+  username: 'test-user-2',
   status: 'ACTIVE',
   products: []
 };
 
 describe('Orders Model', () => {
   beforeAll(async () => {
-    await userStore.create({
-      username: 'jocko_willink',
-      firstName: 'Jocko',
-      lastName: 'Willink',
-      password: 'go-get-some'
-    });
-
     await categoryStore.create({ name: 'Food' });
 
     await productsStore.create({ name: 'Tacos', price: 9, category_id: 1 });

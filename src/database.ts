@@ -11,14 +11,17 @@ const {
   POSTGRES_PWD,
   ENV
 } = process.env;
+let client: Pool = new Pool();
 
 // Always use dev env as default
-let client: Pool = new Pool({
-  host: POSTGRES_HOST,
-  database: POSTGRES_DB_DEV,
-  user: POSTGRES_USER,
-  password: POSTGRES_PWD
-});
+if (ENV === 'dev') {
+  client = new Pool({
+    host: POSTGRES_HOST,
+    database: POSTGRES_DB_DEV,
+    user: POSTGRES_USER,
+    password: POSTGRES_PWD
+  });
+}
 
 if (ENV === 'test') {
   client = new Pool({

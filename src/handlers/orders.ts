@@ -5,8 +5,13 @@ import verifyAuthToken from '../middlewares/verify-auth-token';
 const store = new OrdersStore();
 
 const index = async (_req: Request, res: Response) => {
-  const orders = await store.index();
-  res.json(orders);
+  try {
+    const orders = await store.index();
+    res.json(orders);
+  } catch {
+    res.status(401);
+    res.json('An error occurred!');
+  }
 };
 
 const create = async (req: Request, res: Response) => {

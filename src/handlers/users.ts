@@ -8,8 +8,13 @@ const store = new UserStore();
 dotenv.config();
 
 const index = async (_req: Request, res: Response) => {
-  const users = await store.index();
-  res.json(users);
+  try {
+    const users = await store.index();
+    res.json(users);
+  } catch {
+    res.status(401);
+    res.json('An error occurred!');
+  }
 };
 
 const create = async (req: Request, res: Response) => {
